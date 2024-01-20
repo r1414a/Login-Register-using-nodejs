@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "npm index.js",
-    "build": "npm index.js",
+    "build": "npm package.json"
   },
   "eslintConfig": {
     "extends": [
