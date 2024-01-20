@@ -16,10 +16,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "npm start",
-    "build": "npm build",
-    "test": "npm test",
-    "eject": "npm eject"
+    "start": "npm index.js"
   },
   "eslintConfig": {
     "extends": [
