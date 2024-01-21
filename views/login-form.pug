@@ -1,17 +1,14 @@
 extends home.pug
 
 block content
-  h1 This is Login Page
-  h4 #{present}
-    form(action='/login-page' method='post')
-        label
-            | Username :
-            input(type='text', name="name", required)
-        br
-        br
-        label
-            | Password :
-            input(type='text', name="password", required)
-        br
-        br
-        button Log In
+    .form-container
+        h1 Login Form
+        form.allforms(action='/login-page' method='post')
+            label
+                input(type='text', name="name", required, placeholder='Username')
+            br
+            label
+                input(type='text', name="password", required, placeholder='Password')
+            br
+            br
+            button.allbuttons Log In

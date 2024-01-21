@@ -1,17 +1,14 @@
 extends home.pug 
 
 block content
-  h1 This is Registration Page
-  h4 #{present}
-  form(action='/userregistration' method='post')
-    label
-      | Username :
-      input(type='text', name="name", required)
-    br
-    br
-    label
-      | Password :
-      input(type='text', name="password", required)
-    br
-    br
-    button Register
+  .form-container
+    h1 Registration Form
+    form.allforms(action='/userregistration' method='post')
+      label
+        input(type='text', name="name", required, placeholder='Username')
+      br
+      label
+        input(type='text', name="password", required, placeholder='Password')
+      br
+      br
+      button.allbuttons Register

@@ -10,6 +10,8 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//For Serving static files
+app.use('/static', express.static('static'));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -25,13 +27,13 @@ app.get('/', async (req, res) => {
     }
 })
 
-app.get('/user-registered-successfully', async(req,res) => {
-    try{
-            res.send("User Registered Successfully!!!!!!!");
-    }catch(error){
-        console.log(error);
-    }
-})
+// app.get('/user-registered-successfully', async(req,res) => {
+//     try{
+//             res.send("User Registered Successfully!!!!!!!");
+//     }catch(error){
+//         console.log(error);
+//     }
+// })
 
 app.get('/userregistration', async(req,res) => {
     try{
@@ -53,17 +55,16 @@ app.get('/login-page', async(req,res) => {
 
 async function checkIfUserPresent(user_pass, req, res) {
     // both username and password should be present
-    const present = "Either username password already present in database or you didn't set anything as password and username.";
-
-
-    const data = await Details.find({ name: user_pass.name, password: user_pass.password });
-    if (data.length === 0 && user_pass.name != '' && user_pass.password != '') {
+    const str1 = "{message : User already present in database. Please register with different username}";
+    const str2 = "Register"
+    const findUser = await Details.find({ name: user_pass.name });
+    if (findUser.length === 0) {
         const save_user_pass = new Details(user_pass);
         save_user_pass.save().then(() => {
             res.render('user-registered-successfully');
         })
     } else {
-        res.render('form',{present: present});
+        res.render('error',{msg: str1, page:str2});
         return ;
     }
 }
@@ -76,27 +77,29 @@ app.post('/userregistration', async (req, res) => {
         console.log(req.body);
         const user_pass = req.body;
         await checkIfUserPresent(user_pass, req, res);
-        await loginUser(user_pass,req,res);
     } catch (error) {
         console.log(error);
     }
 })
 
 async function loginUser(user_pass,req,res){
-    const data = await Details.find({ name: user_pass.name, password: user_pass.password });
-    if (data.length === 0 && user_pass.name != '' && user_pass.password != ''){
-        res.send("You need to Register First.")
-    // } else if(data.length === 0 && user_pass.name === '' && user_pass.password === '') {
-    //     res.send("")
-    // }
+    const str1 = "{message : It's looks like you are not present in our database.So, please Register First.}";
+    const str2 = "{message : Either username or password is incorrect.}";
+    const str3 = 'Register';
+    const str4 = 'Login';
+    const onlyuser = await Details.find({ name: user_pass.name });
+    const onlypass = await Details.find({ password: user_pass.password });
+    if (onlyuser.length === 0 && onlypass.length === 0){
+        res.render('error',{msg:str1,page:str3});
+    }else if(onlyuser.length !== 0 && onlypass.length !== 0){
+        res.render('user-login-successfully');
     }else{
-        res.send('login sucessfull');
+        res.render('error',{msg:str2,page:str4});
     }
 } 
 
 app.post("/login-page", async (req,res) => {
     try{
-        console.log(req.body);
         const user_pass = req.body;
         await loginUser(user_pass,req,res);
     }catch(error){

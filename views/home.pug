@@ -3,13 +3,16 @@ head
   meta(charset='UTF-8')
   meta(http-equiv='X-UA-Compatible' content='IE=edge')
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
-  title Document
-  h1 This is Home Page
-  ul
+  title Login Register Page 
+  style 
+    include ../static/style.css
+ul
     li 
         a(href='/') Home
     li 
         a(href='/userregistration') Registration 
     li 
-        a(href='/login-page') Log-in
+        a(href='/login-page') Log-In     
 block content
+    .container
+        p This project is just basic login - register functionality. In which user first need to register if already not registred. when user register its username and password get stored in mongodb database and then at the time of login database is checked if user already present or not. so basically i have created how basic login and register works!!. 
